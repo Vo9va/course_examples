@@ -8,13 +8,20 @@ pipeline {
                                userRemoteConfig: [
                                    [ url: 'https://github.com/Vo9va/course_examples.git' ]
                                ])
-                sh 'echo Hello World'
+                sh 'echo checkout main'
             }
         }
         stage('Build'){
             steps{
-            sh 'echo erytrtrytrtt'
+            echo 'Building dependencies'
+            sh 'npm install'
             }
         }
+        stage('Test') {
+              steps {
+                echo 'Starting unit tests'
+                sh 'npm test'
+              }
+            }
     }
 }
