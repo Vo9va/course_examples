@@ -6,7 +6,7 @@ pipeline {
             steps {
                checkout scmGit(branches: [[name: '*/main']],
                                extensions:[],)
-                               userRemoteConfig:[[
+                               userRemoteConfig: [[
                                    url: 'git@github.com:Vo9va/course_examples.git'
                                ]]
                 sh 'echo Hello World'
