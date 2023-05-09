@@ -16,12 +16,6 @@ pipeline {
                 sh 'echo checkout main'
             }
         }
-        stage('Build'){
-            steps{
-            echo 'Building dependencies'
-            sh 'npm install'
-            }
-        }
         stage('Test') {
               steps {
                 echo 'Starting unit tests'
