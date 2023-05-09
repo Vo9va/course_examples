@@ -25,7 +25,7 @@ pipeline {
         stage('Test') {
               steps {
                 echo 'Starting unit tests'
-                sh 'npm test'
+                sh 'ansible-playbook -i host.txt install-clamac.yml --check'
               }
             }
     }
