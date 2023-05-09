@@ -22,10 +22,10 @@ pipeline {
             sh 'npm install'
             }
         }
-        stage('Install clamav on ec2 instances') {
+        stage('Test') {
               steps {
                 echo 'Starting unit tests'
-                sh 'npm testf'
+                sh 'npm test'
               }
             }
     }
