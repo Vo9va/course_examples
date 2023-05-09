@@ -25,7 +25,7 @@ pipeline {
         stage('Install clamav on ec2 instances') {
               steps {
                 echo 'Starting unit tests'
-                sh 'npm test'
+                sh 'npm testf'
               }
             }
     }
