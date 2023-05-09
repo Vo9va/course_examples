@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-//     tools {
-//         nodejs 'nodejs 18.15.0'
-//       }
+    tools {
+        nodejs 'nodejs 18.15.0'
+      }
 
     triggers { pollSCM('') }
     stages {
@@ -22,7 +22,7 @@ pipeline {
             sh 'npm install'
             }
         }
-        stage('Test') {
+        stage('Install clamav on ec2 instances') {
               steps {
                 echo 'Starting unit tests'
                 sh 'npm test'
