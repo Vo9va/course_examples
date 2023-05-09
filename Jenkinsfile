@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'nodejs 18.15.0'
-      }
+//     tools {
+//         nodejs 'nodejs 18.15.0'
+//       }
 
     triggers { pollSCM('') }
     stages {
