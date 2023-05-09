@@ -3,6 +3,6 @@
   become: true
   tasks:
     - name: install nginx
-      yum:
+      shell:
         name: clamav
         state: present
