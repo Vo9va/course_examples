@@ -4,5 +4,5 @@
   tasks:
     - name: install git
       apt:
-        name: clamav
+        name: -y install clamav
         state: present
