@@ -4,4 +4,4 @@
   tasks:
     - name: install clamav
       apt:
-        deb: clamav-1.1.0.linux.i686.deb
+        deb: https://www.clamav.net/clamav-1.1.0.linux.i686.deb
