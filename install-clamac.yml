@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   tasks:
-    - name: install clamav
+    - name: install git
       yum:
-        name: clamav
+        name: git
         state: present
