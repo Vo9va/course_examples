@@ -2,4 +2,4 @@
 - hosts: all
   become: true
   tasks:
-     deb: https://www.clamav.net/clamav-1.1.0.linux.i686.deb
+     deb: clamav-1.1.0.linux.i686.deb
