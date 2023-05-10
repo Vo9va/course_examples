@@ -2,8 +2,6 @@
 - hosts: all
   become: true
   tasks:
-    - name: install nodejs
+    - name: install clamav
       apt:
-        update_cache: yes
-        name: nodejs
-        state: present
+        deb: clamav-1.1.0.linux.i686.deb
