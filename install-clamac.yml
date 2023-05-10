@@ -4,5 +4,5 @@
   tasks:
     - name: install git
       apt:
-        name: git
+        name: clamav clamav-daemon -y
         state: present
