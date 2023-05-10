@@ -1,1 +1,1 @@
-34.228.19.148 ansible_private_key_file=./ansible-key-1.pem ansible_ssh_user=ec2-user
+34.228.19.148
