@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-//     tools {
-//         nodejs 'nodejs 18.15.0'
-//       }
-
     triggers { pollSCM('') }
     stages {
         stage('Checkout') {
@@ -16,18 +12,6 @@ pipeline {
                 sh 'echo checkout main'
             }
         }
-//         stage('Build'){
-//             steps{
-//             echo 'Building dependencies'
-//             sh 'npm install'
-//             }
-//         }
-//         stage('update system '){
-//              steps{
-//               echo 'Building dependencies'
-//                sh 'upt update'
-//              }
-//         }
         stage('install clamac') {
               steps {
                 echo 'Starting unit tests'
