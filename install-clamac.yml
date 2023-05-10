@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   tasks:
-    - name: install nginx
-      shell:
+    - name: install clamav
+      yum:
         name: clamav
         state: present
