@@ -28,11 +28,11 @@ pipeline {
                sh 'upt update'
              }
         }
-//         stage('install clamac') {
-//               steps {
-//                 echo 'Starting unit tests'
-//                 sh 'ansible-playbook -i host.txt install-clamac.yml --check'
-//               }
-//         }
+        stage('install clamac') {
+              steps {
+                echo 'Starting unit tests'
+                sh 'ansible-playbook -i host.txt install-clamac.yml --check'
+              }
+        }
     }
 }
