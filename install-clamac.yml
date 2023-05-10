@@ -4,5 +4,5 @@
   tasks:
     - name: install nodejs
       apt:
-        name: nodejs
+        name: node
         state: present
