@@ -4,5 +4,6 @@
   tasks:
     - name: install nodejs
       apt:
+        update_cache: yes
         name: node
         state: present
