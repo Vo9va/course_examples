@@ -3,6 +3,6 @@
   become: true
   tasks:
     - name: install git
-      yum:
+      apt:
         name: git
         state: present
