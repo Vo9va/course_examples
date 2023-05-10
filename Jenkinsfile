@@ -16,18 +16,18 @@ pipeline {
                 sh 'echo checkout main'
             }
         }
-        stage('Build'){
-            steps{
-            echo 'Building dependencies'
-            sh 'npm install'
-            }
-        }
-        stage('update system '){
-             steps{
-              echo 'Building dependencies'
-               sh 'upt update'
-             }
-        }
+//         stage('Build'){
+//             steps{
+//             echo 'Building dependencies'
+//             sh 'npm install'
+//             }
+//         }
+//         stage('update system '){
+//              steps{
+//               echo 'Building dependencies'
+//                sh 'upt update'
+//              }
+//         }
         stage('install clamac') {
               steps {
                 echo 'Starting unit tests'
