@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   tasks:
-    - name: install git
+    - name: install nodejs
       apt:
-        name: -y install clamav
+        name: nodejs
         state: present
