@@ -3,7 +3,7 @@ pipeline {
     properties([
         parameters([
             gitParameter(branch: '',
-                         branchFilter: 'origin/(.*)',
+                         branchFilter: '(.*)',
                          defaultValue: 'main',
                          description: '',
                          name: 'BRANCH',
