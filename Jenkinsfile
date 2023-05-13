@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    properties([parameters([choice(choices: ['main', 'stage', 'dev'], description: 'select branch', name: 'BRANCH')])])
     stages {
 
         stage ( 'Logging into AWS ECR') {
@@ -10,10 +10,15 @@ pipeline {
                }
             }
         }
+        stage ('Read  what the branch') {
+             steps {
+                sh '''echo $BRANCH'''
+             }
+        }
 
         stage ('Cloning Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/Vo9va/course_examples.git'
+                git branch: "${params.BRANCH}, url: 'https://github.com/Vo9va/course_examples.git"
             }
         }
 
