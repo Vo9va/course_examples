@@ -19,7 +19,7 @@ pipeline {
 
         stage ('Cloning Git') {
             steps {
-                git branch: "${params.BRANCH}, url: 'https://github.com/Vo9va/course_examples.git"
+                git branch: "${params.BRANCH}", url: "https://github.com/Vo9va/course_examples.git"
             }
         }
 
