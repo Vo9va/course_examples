@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    parameters {choice(choices: 'main stage dev', description: 'select branch', name: 'BRANCH')
+    parameters {
+               choice(choices: 'main stage dev', description: 'select branch', name: 'BRANCH')
     }
     stages {
 
@@ -19,7 +20,7 @@ pipeline {
 
         stage ('Cloning Git') {
             steps {
-                git branch: "${params.BRANCH}", url: "https://github.com/Vo9va/course_examples.git"
+                git branch: "${BRANCH}", url: "https://github.com/Vo9va/course_examples.git"
             }
         }
 
