@@ -1,20 +1,6 @@
 pipeline {
     agent any
-    properties([
-        parameters([
-            gitParameter(branch: '',
-                         branchFilter: 'origin/(.*)',
-                         defaultValue: 'main',
-                         description: '',
-                         name: 'BRANCH',
-                         quickFilterEnabled: true,
-                         selectedValue: 'TOP',
-                         sortMode: 'DESCENDING',
-                         tagFilter: '*',
-                         type: 'PT_BRANCH'
-                         useRepository: 'https://github.com/Vo9va/course_examples.git')
-        ])
-    ])
+    properties([parameters([choice(choices: ['main', 'stage', 'dev'], description: 'select branch', name: 'BRANCH')])])
     stages {
 
         stage ( 'Logging into AWS ECR') {
@@ -32,7 +18,7 @@ pipeline {
 
         stage ('Cloning Git') {
             steps {
-                git branch: "${params.BRANCH.split('/').last()}', url: 'https://github.com/Vo9va/course_examples.git"
+                git branch: "${params.BRANCH}, url: 'https://github.com/Vo9va/course_examples.git"
             }
         }
 
