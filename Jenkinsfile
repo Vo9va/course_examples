@@ -1,11 +1,20 @@
 pipeline {
     agent any
-    parameters {
-        gitParameter branchFilter: 'origin/(.*)',
-         defaultValue: 'main',
-         name: 'BRANCH',
-         type: 'PT_BRANCH'
-    }
+    properties([
+        parameters([
+            gitParameter(branch: '',
+                         branchFilter: 'origin/(.*)',
+                         defaultValue: 'main',
+                         description: '',
+                         name: 'BRANCH',
+                         quickFilterEnabled: true,
+                         selectedValue: 'TOP',
+                         sortMode: 'DESCENDING',
+                         tagFilter: '*',
+                         type: 'PT_BRANCH'
+                         useRepository: 'https://github.com/Vo9va/course_examples.git')
+        ])
+    ])
     stages {
 
         stage ( 'Logging into AWS ECR') {
@@ -17,7 +26,7 @@ pipeline {
         }
         stage ('Read  what the branch') {
              steps {
-                sh 'echo ${params.BRANCH}'
+                sh '''echo $BRANCH'''
              }
         }
 
