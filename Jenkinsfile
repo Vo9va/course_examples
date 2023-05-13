@@ -3,7 +3,7 @@ pipeline {
     properties([
         parameters([
             gitParameter(branch: '',
-                         branchFilter: '(.*)',
+                         branchFilter: 'origin/(.*)',
                          defaultValue: 'main',
                          description: '',
                          name: 'BRANCH',
@@ -32,7 +32,7 @@ pipeline {
 
         stage ('Cloning Git') {
             steps {
-                git branch: '${params.BRANCH}', url: 'https://github.com/Vo9va/course_examples.git'
+                git branch: "${params.BRANCH.split('/').last()}', url: 'https://github.com/Vo9va/course_examples.git"
             }
         }
 
