@@ -1,6 +1,11 @@
 pipeline {
     agent any
-
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)',
+         defaultValue: 'main',
+         name: 'BRANCH',
+         type: 'PT_BRANCH'
+    }
     stages {
 
         stage ( 'Logging into AWS ECR') {
@@ -10,10 +15,15 @@ pipeline {
                }
             }
         }
+        stage ('Read  what the branch') {
+             steps {
+                sh 'echo ${params.BRANCH}'
+             }
+        }
 
         stage ('Cloning Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/Vo9va/course_examples.git'
+                git branch: '${params.BRANCH}', url: 'https://github.com/Vo9va/course_examples.git'
             }
         }
 
