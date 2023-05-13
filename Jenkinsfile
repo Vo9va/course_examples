@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    options([parameters([choice(choices: 'main stage dev', description: 'select branch', name: 'BRANCH')])])
+    parameters {choice(choices: 'main stage dev', description: 'select branch', name: 'BRANCH')
+    }
     stages {
 
         stage ( 'Logging into AWS ECR') {
