@@ -45,7 +45,7 @@ pipeline {
         stage ( 'docker run') {
                     steps {
                         script {
-                                sh "docker run -d 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1"
+                                sh "docker run -p 49160:8080 -d 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1"
                            }
                       }
                 }
