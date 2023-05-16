@@ -37,9 +37,18 @@ pipeline {
                 script {
                         sh "docker tag jenkins-test-1:latest 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
                         sh "docker push 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
+                        sh "docker run -d 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1"
                    }
               }
         }
+
+        stage ( 'docker run') {
+                    steps {
+                        script {
+                                sh "docker run -d 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1"
+                           }
+                      }
+                }
 
     }
 }
