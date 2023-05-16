@@ -24,6 +24,14 @@ pipeline {
             }
         }
 
+        stage ( 'Build your Docker image') {
+            steps {
+                script {
+                         sh "docker build -t jenkins-test-1 ."
+                        }
+                    }
+        }
+
         stage ( 'Pushing to ECR') {
             steps {
                 script {
