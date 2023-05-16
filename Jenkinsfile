@@ -35,7 +35,7 @@ pipeline {
         stage ( 'Pushing to ECR') {
             steps {
                 script {
-                        sh "docker tag jenkins-test-1:latest 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
+                        sh "docker tag jenkins-test-1:${BRANCH} 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
                         sh "docker push 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
                    }
               }
