@@ -1,5 +1,5 @@
 ---
 - hosts: all
   become: true
-
-  roles: -deploy_nginx_to_ec2
+  roles:
+  - { role: deploy_nginx_to_ec2}
