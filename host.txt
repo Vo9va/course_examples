@@ -1,1 +1,1 @@
-44.202.240.12 ansible_private_key_file=/home/vovva/.ssh/test-services.pem ansible_ssh_user=ubuntu
+34.207.160.111 ansible_ssh_user=ubuntu
