@@ -1,1 +1,1 @@
-34.207.160.111 ansible_ssh_user=ubuntu
+34.203.247.39 ansible_ssh_user=ubuntu
