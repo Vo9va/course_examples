@@ -8,7 +8,7 @@ pipeline {
         stage ( 'Logging into AWS ECR') {
            steps {
                script {
-               sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 380922537039.dkr.ecr.us-east-1.amazonaws.com"
+               sh "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6a7j0a3"
                }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
         stage ( 'Build your Docker image') {
             steps {
                 script {
-                         sh "docker build -t jenkins-test-1 ."
+                         sh "docker build -t docker-app-ex-3 ."
                         }
                     }
         }
@@ -35,8 +35,8 @@ pipeline {
         stage ( 'Pushing to ECR') {
             steps {
                 script {
-                        sh "docker tag jenkins-test-1:latest 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
-                        sh "docker push 380922537039.dkr.ecr.us-east-1.amazonaws.com/jenkins-test-1:latest"
+                        sh "docker tag docker-app-ex-3:latest public.ecr.aws/b6a7j0a3/docker-app-ex-3:latest"
+                        sh "docker push public.ecr.aws/b6a7j0a3/docker-app-ex-3:latest"
                    }
               }
         }
