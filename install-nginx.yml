@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: true
-  tasks: null
-  roles:
-    - role: deploy_nginx_to_ec2
-
