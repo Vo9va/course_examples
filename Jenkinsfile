@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    tools {nodejs "node"}
     triggers {pollSCM('')}
     stages {
         stage('Checkout') {
