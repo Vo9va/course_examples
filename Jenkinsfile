@@ -18,10 +18,10 @@ pipeline {
             }
         }
         stage('Run test') {
-              steps {
-                echo 'Start tests'
-                sh 'npm test'
+             steps {
+               echo 'Start tests'
+               sh 'npm test'
               }
-            }
+        }
     }
 }
