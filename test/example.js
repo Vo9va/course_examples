@@ -30,7 +30,7 @@ describe('Login/Logout', async function () {
 
   it('logout customer', async function () {
     let res = await customersHelper.logoutCustomer(agent);
-    expect(res.statusCode).to.equal(201);
+    expect(res.statusCode).to.equal(200);
   });
 });
 //test
