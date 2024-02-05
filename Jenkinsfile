@@ -1,6 +1,6 @@
 pipeline {
     agent any
-//     tools { nodeJS "nodejs" }
+    tools { nodejs "nodeJS 20.10.0" }
     stages {
         stage('Checkout') {
             steps {
@@ -14,13 +14,13 @@ pipeline {
         stage('Build dependencies'){
             steps{
             echo 'Building dependencies'
-//             sh 'npm install'
+            sh 'npm install'
             }
         }
         stage('Run test') {
              steps {
                echo 'Start tests'
-//                sh 'npm test'
+               sh 'npm test'
               }
         }
     }
