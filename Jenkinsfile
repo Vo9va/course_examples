@@ -45,6 +45,5 @@ pipeline {
 //                    echo 'Start tests'
 //                    sh 'npm test'
 //                   }
-         }
     }
 }
