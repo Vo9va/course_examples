@@ -22,14 +22,14 @@ node {
     }
 
     stage('Install Dependencies') {
-        parallel(
-              a: {
-                echo "This is branch a"
-              },
-              b: {
-                echo "This is branch b"
-              }
-            )
+        parallel {
+             stage('Test On Windows') {
+             sh 'echo checkout main'
+             }
+             stage('Test On Linux') {
+              sh 'echo checkout main'
+             }
+        }
     }
 }
 
