@@ -21,16 +21,6 @@ node {
                            sh 'echo checkout main'
     }
 
-    stage('Install Dependencies') {
-        parallel (
-             stage('Test On Windows') {
-             sh 'echo checkout main'
-             }
-             stage('Test On Linux') {
-              sh 'echo checkout main'
-             }
-        )
-    }
     stage('Deploy') {
         script {
             / Condition to skip this step
