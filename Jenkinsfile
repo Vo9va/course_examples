@@ -7,7 +7,8 @@ node {
             booleanParam(defaultValue: true, description: 'Run Desktop Tests', name: 'RUN_MOBILE_TESTS'),
             booleanParam(defaultValue: true, description: 'Run Mobile Tests', name: 'RUN_APPLICATION_TESTS'),
             booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_BO_TESTS'),
-            choice(choices: ['ui', 'api'], description: 'Select Environment', name: 'test'),
+            booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_BO_API'),
+            booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_FO_API'),
         ])
     ])
 
@@ -37,28 +38,28 @@ node {
     parallel(
         "Desktop Tests": {
             stage('Run Desktop test') {
-                if (params.RUN_DESKTOP_TESTS.toBoolean() && params.test == 'ui') {
+                if (params.RUN_DESKTOP_TESTS.toBoolean()) {
                     echo 'Run Desktop test'
                 }
             }
         },
         "Web Mobile Tests": {
             stage('Run Web Mobile test') {
-                if (params.RUN_MOBILE_TESTS.toBoolean() && params.test == 'ui') {
+                if (params.RUN_MOBILE_TESTS.toBoolean()) {
                     echo 'Run Web Mobile test'
                 }
             }
         },
         "Application Tests": {
             stage('Run Application test') {
-                if (params.RUN_APPLICATION_TESTS.toBoolean() && params.test == 'ui') {
+                if (params.RUN_APPLICATION_TESTS.toBoolean()) {
                     echo 'Run Application test'
                 }
             }
         },
         "BO Tests": {
             stage('Run BO test') {
-                if (params.RUN_BO_TESTS.toBoolean() && params.test == 'ui') {
+                if (params.RUN_BO_TESTS.toBoolean()) {
                     echo 'Run BO test'
                 }
             }
@@ -84,14 +85,14 @@ node {
     parallel(
         "fo api": {
             stage('Run Desktop test') {
-                if (params.RUN_DESKTOP_TESTS.toBoolean() && params.test == 'api') {
+                if (params.RUN_BO_API.toBoolean()) {
                     echo 'Run Desktop test'
                 }
             }
         },
         "bo api": {
             stage('Run Web Mobile test') {
-                if (params.RUN_MOBILE_TESTS.toBoolean() && params.test == 'api') {
+                if (params.RUN_FO_API.toBoolean()) {
                     echo 'Run Web Mobile test'
                 }
             }
