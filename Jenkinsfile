@@ -1,9 +1,9 @@
 node {
     properties([
         parameters([
-            choice(choices: ['capitalix', 'tradeEU', 'nrdx', 'wc1'], description: 'Select Brand', name: 'BRAND'),
-            choice(choices: ['dev', 'stage', 'prod'], description: 'Select Environment', name: 'ENVIRONMENT'),
-        ])
+        choice(choices: ['capitalix', 'tradeEU', 'nrdx', 'wc1'], description: 'Select Brand', name: 'BRAND'),
+        choice(choices: ['dev', 'stage', 'prod'], description: 'Select Environment', name: 'ENVIRONMENT'),
+    ])
     ])
 
     stage('Install Node.js 20') {
@@ -15,22 +15,21 @@ node {
 
     stage('Checkout') {
         checkout scmGit(branches: [[name: '*/main']],
-                                           userRemoteConfig: [
-                                               [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                           ])
-                           sh 'echo checkout main'
+                        userRemoteConfig: [
+                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                        ])
+        sh 'echo checkout main'
     }
 
     stage('Deploy') {
         script {
             / Condition to skip this step
             if (params.SKIP_DEPLOY == 'true') {
-            echo 'Skipping deployment...'
+                echo 'Skipping deployment...'
             } else {
-            echo 'Deploying...'
-            // Your deployment steps go here
+                echo 'Deploying...'
+                // Your deployment steps go here
             }
         }
     }
 }
-
