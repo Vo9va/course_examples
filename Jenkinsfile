@@ -31,14 +31,16 @@ node {
              }
         )
     }
-    stage('Install Dependencies1') {
-      script {
-                  if (params.BRAND == Capitalix) {
-                      sh 'echo checkout main'
-                  }
-                  else {
-                  throw exc
-                  }
-              }
+    stage('Deploy') {
+                    script {
+                        // Condition to skip this step
+                        if (params.SKIP_DEPLOY == 'true') {
+                            echo 'Skipping deployment...'
+                        } else {
+                            echo 'Deploying...'
+                            // Your deployment steps go here
+                        }
+                    }
+                }
 }
 
