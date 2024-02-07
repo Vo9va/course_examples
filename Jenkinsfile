@@ -31,5 +31,14 @@ node {
              }
         )
     }
+    stage('Install Dependencies') {
+      script {
+                  if (params.BRAND == Capitalix) {
+                      sh 'echo checkout main'
+                  }
+                  else {
+                  throw exc
+                  }
+              }
 }
 
