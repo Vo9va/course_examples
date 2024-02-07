@@ -32,15 +32,16 @@ node {
         )
     }
     stage('Deploy') {
-                    script {
-                        // Condition to skip this step
-                        if (params.SKIP_DEPLOY == 'true') {
-                            echo 'Skipping deployment...'
-                        } else {
-                            echo 'Deploying...'
-                            // Your deployment steps go here
-                        }
-                    }
-                }
+        script {
+            / Condition to skip this step
+            if (params.SKIP_DEPLOY == 'true') {
+            echo 'Skipping deployment...'
+            } else {
+            echo 'Deploying...'
+            // Your deployment steps go here
+            }
+            }
+        }
+    }
 }
 
