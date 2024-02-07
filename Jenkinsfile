@@ -30,7 +30,6 @@ node {
             echo 'Deploying...'
             // Your deployment steps go here
             }
-            }
         }
     }
 }
