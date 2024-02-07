@@ -10,18 +10,19 @@ node {
             choice(choices: ['ui', 'api'], description: 'Select Environment', name: 'test'),
         ])
     ])
+
     stage('Install Node.js 20') {
-         script {
-             def nodeJSHome = tool 'nodeJS 20.10.0'
-             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+        script {
+            def nodeJSHome = tool 'nodeJS 20.10.0'
+            env.PATH = "${nodeJSHome}/bin:${env.PATH}"
         }
     }
 
     stage('Checkout one project') {
         checkout scmGit(branches: [[name: '*/main']],
-                                        userRemoteConfig: [
-                                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                        ])
+                        userRemoteConfig: [
+                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                        ])
         sh 'echo checkout main'
     }
 
@@ -35,38 +36,30 @@ node {
 
     parallel(
         "Desktop Tests": {
-            if (params.test == 'ui') {
-                if (params.RUN_DESKTOP_TESTS.toBoolean()) {
-                    stage('Run Desktop test') {
-                        echo 'Run Desktop test'
-                    }
+            stage('Run Desktop test') {
+                if (params.RUN_DESKTOP_TESTS.toBoolean() && params.test == 'ui') {
+                    echo 'Run Desktop test'
                 }
             }
         },
         "Web Mobile Tests": {
-            if (params.test == 'ui') {
-                if (params.RUN_MOBILE_TESTS.toBoolean()) {
-                    stage('Run Web Mobile test') {
-                        echo 'Run Web Mobile test'
-                    }
+            stage('Run Web Mobile test') {
+                if (params.RUN_MOBILE_TESTS.toBoolean() && params.test == 'ui') {
+                    echo 'Run Web Mobile test'
                 }
             }
         },
         "Application Tests": {
-            if (params.test == 'ui') {
-                if (params.RUN_APPLICATION_TESTS.toBoolean()) {
-                    stage('Run Application test') {
-                        echo 'Run Application test'
-                    }
+            stage('Run Application test') {
+                if (params.RUN_APPLICATION_TESTS.toBoolean() && params.test == 'ui') {
+                    echo 'Run Application test'
                 }
             }
         },
         "BO Tests": {
-            if (params.test == 'ui') {
-                if (params.RUN_BO_TESTS.toBoolean()) {
-                    stage('Run BO test') {
-                        echo 'Run BO test'
-                    }
+            stage('Run BO test') {
+                if (params.RUN_BO_TESTS.toBoolean() && params.test == 'ui') {
+                    echo 'Run BO test'
                 }
             }
         }
@@ -74,9 +67,9 @@ node {
 
     stage('Checkout one project') {
         checkout scmGit(branches: [[name: '*/main']],
-                                        userRemoteConfig: [
-                                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                        ])
+                        userRemoteConfig: [
+                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                        ])
         sh 'echo checkout main'
     }
 
@@ -90,20 +83,16 @@ node {
 
     parallel(
         "fo api": {
-            if (params.test == 'api') {
-                if (params.RUN_DESKTOP_TESTS.toBoolean()) {
-                    stage('Run Desktop test') {
-                        echo 'Run Desktop test'
-                    }
+            stage('Run Desktop test') {
+                if (params.RUN_DESKTOP_TESTS.toBoolean() && params.test == 'api') {
+                    echo 'Run Desktop test'
                 }
             }
         },
         "bo api": {
-            if (params.test == 'api') {
-                if (params.RUN_MOBILE_TESTS.toBoolean()) {
-                    stage('Run Web Mobile test') {
-                        echo 'Run Web Mobile test'
-                    }
+            stage('Run Web Mobile test') {
+                if (params.RUN_MOBILE_TESTS.toBoolean() && params.test == 'api') {
+                    echo 'Run Web Mobile test'
                 }
             }
         }
