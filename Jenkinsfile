@@ -31,7 +31,7 @@ node {
              }
         )
     }
-    stage('Install Dependencies') {
+    stage('Install Dependencies1') {
       script {
                   if (params.BRAND == Capitalix) {
                       sh 'echo checkout main'
