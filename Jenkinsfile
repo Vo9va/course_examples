@@ -28,7 +28,6 @@ node {
                 echo 'Skipping deployment...'
             } else {
                 echo 'Deploying...'
-                // Your deployment steps go here
             }
         }
     }
