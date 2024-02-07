@@ -1,9 +1,4 @@
 node {
-    nodejs(nodeJSInstallationName: 'nodeJS 20.10.0') {
-        sh 'node --version'
-        sh 'npm --version'
-    }
-
     properties([
         parameters([
             choice(choices: ['capitalix', 'tradeEU', 'nrdx', 'wc1'], description: 'Select Brand', name: 'BRAND'),
@@ -15,6 +10,12 @@ node {
             choice(choices: ['ui', 'api'], description: 'Select Environment', name: 'test'),
         ])
     ])
+    stage('Install Node.js 20') {
+         script {
+             def nodeJSHome = tool 'nodeJS 20.10.0'
+             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+        }
+    }
 
     stage('Checkout one project') {
         checkout scmGit(branches: [[name: '*/main']],
