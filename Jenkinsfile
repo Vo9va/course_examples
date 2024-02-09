@@ -20,16 +20,16 @@ node {
     ])
 
     stage('Checking out from Git for UI') {
+        checkout scmGit(branches: [[name: '*/main']],
+                                            userRemoteConfig: [
+                                                [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                                            ])
         if (params.RUN_DESKTOP_TESTS.toBoolean() || params.RUN_MOBILE_TESTS.toBoolean() || params.RUN_APPLICATION_TESTS.toBoolean() || params.RUN_BO_TESTS.toBoolean()) {
             script {
                 currentBuild.displayName = "${params.BRAND}"
                 currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
             }
             echo 'Checking out from Git for UI'
-            checkout scmGit(branches: [[name: '*/main']],
-                                    userRemoteConfig: [
-                                        [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                    ])
         } else {
             Utils.markStageSkippedForConditional('Checking out from Git for UI')
             echo 'Checking out from Git for UI is skipped'
