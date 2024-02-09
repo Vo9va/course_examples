@@ -1,4 +1,11 @@
+import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
+
 node {
+    // Указывает Jenkins использовать конкретную конфигурацию Node.js, добавляя её в PATH
+    nodejs(nodeJSInstallationName: 'nodeJS 20.10.0') {
+        sh 'node --version'
+        sh 'npm --version'
+
     properties([
         parameters([
             choice(choices: ['capitalix', 'tradeEU', 'nrdx', 'wc1'], description: 'Select Brand', name: 'BRAND'),
@@ -7,95 +14,130 @@ node {
             booleanParam(defaultValue: true, description: 'Run Desktop Tests', name: 'RUN_MOBILE_TESTS'),
             booleanParam(defaultValue: true, description: 'Run Mobile Tests', name: 'RUN_APPLICATION_TESTS'),
             booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_BO_TESTS'),
-            booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_BO_API'),
-            booleanParam(defaultValue: true, description: 'Run Backoffice Tests', name: 'RUN_FO_API'),
+            booleanParam(defaultValue: true, description: 'Run FO API Tests', name: 'RUN_FO_API_TESTS'),
+            booleanParam(defaultValue: true, description: 'Run BO API Tests', name: 'RUN_BO_API_TESTS'),
         ])
     ])
 
-    stage('Install Node.js 20') {
-        script {
-            def nodeJSHome = tool 'nodeJS 20.10.0'
-            env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+    stage('Checking out from Git for UI') {
+        if (params.RUN_DESKTOP_TESTS.toBoolean() || params.RUN_MOBILE_TESTS.toBoolean() || params.RUN_APPLICATION_TESTS.toBoolean() || params.RUN_BO_TESTS.toBoolean()) {
+            script {
+                currentBuild.displayName = "${params.BRAND}"
+                currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
+            }
+            echo 'Checking out from Git for UI'
+            git credentialsId: '04fc2ee0-511a-483a-be53-529a2f64d326', url: 'git@github.com:BlackrockM/ng-fe-e2e.git', branch: 'jenkins_test_lena'
+        } else {
+            Utils.markStageSkippedForConditional('Checking out from Git for UI')
+            echo 'Checking out from Git for UI is skipped'
         }
     }
-
-    stage('Checkout one project') {
-        checkout scmGit(branches: [[name: '*/main']],
-                        userRemoteConfig: [
-                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                        ])
-        sh 'echo checkout main'
-    }
-
-    stage('Install Dependencies') {
-        script {
-            currentBuild.displayName = "${params.BRAND}"
-            currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
-            sh "npm install"
+    stage('Building dependencies for UI') {
+        if (params.RUN_DESKTOP_TESTS.toBoolean() || params.RUN_MOBILE_TESTS.toBoolean() || params.RUN_APPLICATION_TESTS.toBoolean() || params.RUN_BO_TESTS.toBoolean()) {
+             echo 'Building dependencies for UI'
+             sh 'npm install'
+        } else {
+            Utils.markStageSkippedForConditional('Building dependencies for UI')
+            echo 'Building dependencies for UI is skipped'
         }
     }
-
-    parallel(
-        "Desktop Tests": {
-            stage('Run Desktop test') {
-                if (params.RUN_DESKTOP_TESTS.toBoolean()) {
-                    echo 'Run Desktop test'
+        parallel(
+                "Desktop Tests": {
+                    stage('Run Desktop tests') {
+                        script {
+                            if (params.RUN_DESKTOP_TESTS.toBoolean()) {
+                                echo 'Run Desktop tests'
+                                sh "REPORT=true MAX_INSTANCES=5 npm run ${params.BRAND}.desktop.${params.ENVIRONMENT}"
+                            } else {
+                                Utils.markStageSkippedForConditional('Run Desktop tests')
+                                echo 'Desktop tests are skipped'
+                            }
+                        }
+                    }
+                },
+                "Web Mobile Tests": {
+                    stage('Run Web Mobile tests') {
+                        script {
+                            if (params.RUN_MOBILE_TESTS.toBoolean()) {
+                                echo 'Running Web Mobile tests'
+                                sh "REPORT=true MAX_INSTANCES=5 npm run ${params.BRAND}.mobile.${params.ENVIRONMENT}"
+                            } else {
+                                Utils.markStageSkippedForConditional('Run Web Mobile tests')
+                                echo 'Web Mobile tests are skipped'
+                            }
+                        }
+                    }
+                },
+                "Application Tests": {
+                    stage('Run Application tests') {
+                        script {
+                            if (params.RUN_APPLICATION_TESTS.toBoolean()) {
+                                echo 'Run Application tests'
+                                sh "REPORT=true npm run app.${params.BRAND}.mobile.${params.ENVIRONMENT}"
+                            } else {
+                                Utils.markStageSkippedForConditional('Run Application tests')
+                                echo 'Application tests are skipped'
+                            }
+                        }
+                    }
+                },
+                "BO Tests": {
+                    stage('Run BO tests') {
+                        script {
+                            if (params.RUN_BO_TESTS.toBoolean()) {
+                                echo 'Run BO tests'
+                                sh "REPORT=true npm run bo.${params.BRAND}.${params.ENVIRONMENT}"
+                            } else {
+                                Utils.markStageSkippedForConditional('Run BO tests')
+                                echo 'BO tests are skipped'
+                            }
+                        }
+                    }
                 }
+        )
+    stage('Checking out from Git for API') {
+        if (params.RUN_FO_API_TESTS.toBoolean() || params.RUN_BO_API_TESTS.toBoolean()) {
+            script {
+                currentBuild.displayName = "${params.BRAND}"
+                currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
             }
-        },
-        "Web Mobile Tests": {
-            stage('Run Web Mobile test') {
-                if (params.RUN_MOBILE_TESTS.toBoolean()) {
-                    echo 'Run Web Mobile test'
-                }
-            }
-        },
-        "Application Tests": {
-            stage('Run Application test') {
-                if (params.RUN_APPLICATION_TESTS.toBoolean()) {
-                    echo 'Run Application test'
-                }
-            }
-        },
-        "BO Tests": {
-            stage('Run BO test') {
-                if (params.RUN_BO_TESTS.toBoolean()) {
-                    echo 'Run BO test'
-                }
-            }
+            echo 'Checking out from Git for API'
+            git credentialsId: '04fc2ee0-511a-483a-be53-529a2f64d326', url: 'git@github.com:BlackrockM/ng-backend-e2e.git', branch: 'jenkins_test_lena'
+        } else {
+            Utils.markStageSkippedForConditional('Checking out from Git for API')
+            echo 'Checking out from Git for API is skipped'
         }
-    )
-
-    stage('Checkout one project') {
-        checkout scmGit(branches: [[name: '*/main']],
-                        userRemoteConfig: [
-                            [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                        ])
-        sh 'echo checkout main'
     }
-
-    stage('Install Dependencies') {
-        script {
-            currentBuild.displayName = "${params.BRAND}"
-            currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
-            sh "npm install"
+    stage('Building dependencies for API') {
+        if (params.RUN_FO_API_TESTS.toBoolean() || params.RUN_BO_API_TESTS.toBoolean()) {
+             echo 'Building dependencies for API'
+             sh 'npm install'
+        } else {
+            Utils.markStageSkippedForConditional('Building dependencies for API')
+            echo 'Building dependencies for API is skipped'
         }
     }
-
-    parallel(
-        "fo api": {
-            stage('Run Desktop test') {
-                if (params.RUN_BO_API.toBoolean()) {
-                    echo 'Run Desktop test'
+                stage('Run FO API Tests') {
+                    script {
+                        if (params.RUN_FO_API_TESTS.toBoolean()) {
+                            echo 'Running FO API Tests'
+                            sh "REPORT=true npm run ${params.BRAND}.${params.ENVIRONMENT}"
+                        } else {
+                            Utils.markStageSkippedForConditional('Run FO API Tests')
+                            echo 'FO API tests are skipped'
+                        }
+                    }
                 }
-            }
-        },
-        "bo api": {
-            stage('Run Web Mobile test') {
-                if (params.RUN_FO_API.toBoolean()) {
-                    echo 'Run Web Mobile test'
+                stage('Run BO API Tests') {
+                    script {
+                        if (params.RUN_BO_API_TESTS.toBoolean()) {
+                            echo 'Running BO API Tests'
+                            sh "REPORT=true npm run bo.${params.BRAND}.${params.ENVIRONMENT}"
+                        } else {
+                            Utils.markStageSkippedForConditional('Run BO API Tests')
+                            echo 'BO API tests are skipped'
+                        }
+                    }
                 }
-            }
-        }
-    )
+  }
 }
