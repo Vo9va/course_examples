@@ -26,7 +26,10 @@ node {
                 currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
             }
             echo 'Checking out from Git for UI'
-            git credentialsId: '04fc2ee0-511a-483a-be53-529a2f64d326', url: 'git@github.com:BlackrockM/ng-fe-e2e.git', branch: 'jenkins_test_lena'
+            checkout scmGit(branches: [[name: '*/main']],
+                                    userRemoteConfig: [
+                                        [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                                    ])
         } else {
             Utils.markStageSkippedForConditional('Checking out from Git for UI')
             echo 'Checking out from Git for UI is skipped'
@@ -102,7 +105,10 @@ node {
                 currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
             }
             echo 'Checking out from Git for API'
-            git credentialsId: '04fc2ee0-511a-483a-be53-529a2f64d326', url: 'git@github.com:BlackrockM/ng-backend-e2e.git', branch: 'jenkins_test_lena'
+            checkout scmGit(branches: [[name: '*/main']],
+                                    userRemoteConfig: [
+                                        [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                                    ])
         } else {
             Utils.markStageSkippedForConditional('Checking out from Git for API')
             echo 'Checking out from Git for API is skipped'
