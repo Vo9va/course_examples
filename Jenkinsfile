@@ -20,11 +20,9 @@ node {
     ])
 
     stage('Checkout one project') {
-            checkout scmGit(branches: [[name: '*/main']],
-                            userRemoteConfig: [
-                                [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                            ])
-            sh 'echo checkout main'
+        git branch: 'main',
+            url: 'https://github.com/Vo9va/course_examples.git'
+        sh 'echo checkout main'
     }
 
     stage('Checking out from Git for UI') {
