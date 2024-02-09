@@ -19,11 +19,15 @@ node {
         ])
     ])
 
+    stage('Checkout one project') {
+            checkout scmGit(branches: [[name: '*/main']],
+                            userRemoteConfig: [
+                                [ url: 'https://github.com/Vo9va/course_examples.git' ]
+                            ])
+            sh 'echo checkout main'
+    }
+
     stage('Checking out from Git for UI') {
-        checkout scmGit(branches: [[name: '*/main']],
-                                            userRemoteConfig: [
-                                                [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                            ])
         if (params.RUN_DESKTOP_TESTS.toBoolean() || params.RUN_MOBILE_TESTS.toBoolean() || params.RUN_APPLICATION_TESTS.toBoolean() || params.RUN_BO_TESTS.toBoolean()) {
             script {
                 currentBuild.displayName = "${params.BRAND}"
@@ -98,52 +102,4 @@ node {
                     }
                 }
         )
-    stage('Checking out from Git for API') {
-        if (params.RUN_FO_API_TESTS.toBoolean() || params.RUN_BO_API_TESTS.toBoolean()) {
-            script {
-                currentBuild.displayName = "${params.BRAND}"
-                currentBuild.description = "BRAND=${params.BRAND}, ENV=${params.ENVIRONMENT}"
-            }
-            echo 'Checking out from Git for API'
-            checkout scmGit(branches: [[name: '*/main']],
-                                    userRemoteConfig: [
-                                        [ url: 'https://github.com/Vo9va/course_examples.git' ]
-                                    ])
-        } else {
-            Utils.markStageSkippedForConditional('Checking out from Git for API')
-            echo 'Checking out from Git for API is skipped'
-        }
-    }
-    stage('Building dependencies for API') {
-        if (params.RUN_FO_API_TESTS.toBoolean() || params.RUN_BO_API_TESTS.toBoolean()) {
-             echo 'Building dependencies for API'
-             sh 'npm install'
-        } else {
-            Utils.markStageSkippedForConditional('Building dependencies for API')
-            echo 'Building dependencies for API is skipped'
-        }
-    }
-                stage('Run FO API Tests') {
-                    script {
-                        if (params.RUN_FO_API_TESTS.toBoolean()) {
-                            echo 'Running FO API Tests'
-                            sh "REPORT=true npm run ${params.BRAND}.${params.ENVIRONMENT}"
-                        } else {
-                            Utils.markStageSkippedForConditional('Run FO API Tests')
-                            echo 'FO API tests are skipped'
-                        }
-                    }
-                }
-                stage('Run BO API Tests') {
-                    script {
-                        if (params.RUN_BO_API_TESTS.toBoolean()) {
-                            echo 'Running BO API Tests'
-                            sh "REPORT=true npm run bo.${params.BRAND}.${params.ENVIRONMENT}"
-                        } else {
-                            Utils.markStageSkippedForConditional('Run BO API Tests')
-                            echo 'BO API tests are skipped'
-                        }
-                    }
-                }
-  }
 }
